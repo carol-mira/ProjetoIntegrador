@@ -1,4 +1,4 @@
-package br.com.projetoIntegrador.projetoEcoIntegrador.Repository;
+package br.com.projetoIntegrador.projetoEcoIntegrador.repository;
 
 import java.util.List;
 
