@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )//talvez tirar 
 	private Long idCategoria;
@@ -23,12 +23,21 @@ public class Categoria {
 	@NotNull(message = "Por favor, insira o departamento do seu produto. ")//vai chamar no controller as opçoes 
 	private String departamento;
 	
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL )
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // talvez tirar
+	private Long idCategoria;
+
+	@NotNull(message = "Por favor, insira o departamento do seu produto.") // vai chamar no controller as opçoes
+	private String departamento;
+
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("categoria")
 	private List<Produto> produtosCategoria;
-	
+
+	public Categoria() {
+	}
+
 	public Categoria(Long idCategoria, String departamento) {
-		super();
 		this.idCategoria = idCategoria;
 		this.departamento = departamento;
 	}
@@ -49,13 +58,12 @@ public class Categoria {
 		this.departamento = departamento;
 	}
 
-	public List<Produto> getProdutosCateoria() {
+	public List<Produto> getProdutosCategoria() {
 		return produtosCategoria;
 	}
 
-	public void setProdutos(List<Produto> produtosCategoria) {
+	public void setProdutosCategoria(List<Produto> produtosCategoria) {
 		this.produtosCategoria = produtosCategoria;
 	}
-
-	
+  
 }
