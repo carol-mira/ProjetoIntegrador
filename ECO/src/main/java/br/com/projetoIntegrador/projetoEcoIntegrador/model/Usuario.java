@@ -18,35 +18,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )//talvez tirar 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//talvez tirar 
 	private Long idUsuario;
 	
-	@Size(min = 3 , max = 50 ) //controller tem que chamar pelo nome social 
+	@Size(min = 3 , max = 50) //controller tem que chamar pelo nome social 
 	private String nomeSocial;
 	
-	@NotNull(message = "Preciso de um apelido. Como devo te chamar? ")
-	@Size(min = 3 , max = 50 )
+	@NotNull(message = "Preciso de um apelido. Como devo te chamar?")
+	@Size(min = 3 , max = 50)
 	private String nomeUsuario;
 
-	@NotNull(message = "Preciso de um nome. Como devo te chamar? ")
-	@Size(min = 3 , max = 50 )
+	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
+	@Size(min = 3 , max = 50)
 	private String nomeCompletoUsuario;
 	
-	@NotNull(message = "Para entramos em contato infome o seu email. ")
-	@Size(min = 3 , max = 50 )
+	@NotNull(message = "Para entramos em contato infome o seu email.")
+	@Size(min = 3 , max = 50)
 	private String emailUsuario;
 	
-	@NotNull(message = "Para sua segurança, digite uma senha. ")//estruturar melhor para deixar sensitvo 
-	@Size(min = 3 , max = 50 )
-	private String senhaUsuario ;
+	@NotNull(message = "Para sua segurança, digite uma senha. ")//estruturar melhor para deixar sensitivo (Valid faz quantidade de caracteres e tal. CaseSensitive é no front.)
+	@Size(min = 3 , max = 50)
+	private String senhaUsuario;
 	
-	@OneToMany(mappedBy =  "usuario" , cascade = CascadeType.ALL )
+	@OneToMany(mappedBy =  "usuario" , cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
+
 	private List<Produto> produtosUsuarios;
-	
-	public Usuario() {
-		
-	}
 
 	public Usuario(Long idUsuario,String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario, String senhaUsuario,
 			List<Produto> produtosUsuarios) {
@@ -65,62 +62,6 @@ public class Usuario {
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 		this.nomeCompletoUsuario= nomeCompletoUsuario;
-	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
-	public String getNomeSocial() {
-		return nomeSocial;
-	}
-
-	public void setNomeSocial(String nomeSocial) {
-		this.nomeSocial = nomeSocial;
-	}
-
-	public String getNomeUsuario() {
-		return nomeUsuario;
-	}
-
-	public void setNomeUsuario(String nomeUsuario) {
-		this.nomeUsuario = nomeUsuario;
-	}
-
-	public String getNomeCompletoUsuario() {
-		return nomeCompletoUsuario;
-	}
-
-	public void setNomeCompletoUsuario(String nomeCompletoUsuario) {
-		this.nomeCompletoUsuario = nomeCompletoUsuario;
-	}
-
-	public String getEmailUsuario() {
-		return emailUsuario;
-	}
-
-	public void setEmailUsuario(String emailUsuario) {
-		this.emailUsuario = emailUsuario;
-	}
-
-	public String getSenhaUsuario() {
-		return senhaUsuario;
-	}
-
-	public void setSenhaUsuario(String senhaUsuario) {
-		this.senhaUsuario = senhaUsuario;
-	}
-
-	public List<Produto> getProdutosUsuarios() {
-		return produtosUsuarios;
-	}
-
-	public void setProdutosUsuarios(List<Produto> produtosUsuarios) {
-		this.produtosUsuarios = produtosUsuarios;
 	}
 	
 
