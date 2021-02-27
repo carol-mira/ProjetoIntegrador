@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Produto {
 	// long= chave primaria
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY )//talvez tirar 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // talvez tirar
 	private Long idProduto; // int
 
@@ -25,6 +26,24 @@ public class Produto {
 	private String nomeProduto;
 
 	@NotNull(message = "Por favor, informe o preço do produto.")
+	private Double preço; //D ou d 
+	
+	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
+	@Size(min = 20 , max = 500)
+	private String descrição;
+    
+	@ManyToOne
+	@JsonIgnoreProperties("produtosCategoria")
+	private Categoria categoria; //primeiro anexo de chave secundaria 
+	
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+	private Usuario usuario; //segundo anexo de chave secundaria 
+	
+	public Produto() {
+		
+	}
+  
 	private Double preço; // D ou d
 
 	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
@@ -39,10 +58,7 @@ public class Produto {
 	@JsonIgnoreProperties("produtos")
 	private Usuario usuario; // segundo anexo de chave secundaria
 
-	// Video sobre o produto
-
 	public Produto() {
-
 	}
 
 	public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
@@ -92,5 +108,4 @@ public class Produto {
 	public void setDescrição(String descrição) {
 		this.descrição = descrição;
 	}
-
 }
