@@ -25,25 +25,27 @@ public class Produto {
 	private String nomeProduto;
 	
 	@NotNull(message = "Por favor, informe o preço do produto.")
-	private Double preço;
+	private Double preço; //D ou d 
 	
-	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo?")
+	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
 	@Size(min = 20 , max = 500)
 	private String descrição;
-	
-	//private String url; Qual a plataforma do video? (Rilton ouviu falar sobre facebook, fora yt). Imagem é a mesma coisa.
     
 	@ManyToOne
 	@JsonIgnoreProperties("produtosCategoria")
-	private Categoria categoria; //primeiro anexo de chave secundaria -> gerar get e set deles sempre também
+	private Categoria categoria; //primeiro anexo de chave secundaria 
 	
 	@ManyToOne
-	@JsonIgnoreProperties("produtosUsuario")
+	@JsonIgnoreProperties("produtos")
 	private Usuario usuario; //segundo anexo de chave secundaria 
 	
-	//Video sobre o produto.
-
-	public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
+	//Video sobre o produto 
+	
+	public Produto() {
+	
+	}
+	
+    public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
 		this.idProduto = idProduto;
 		this.marca = marca;
 		this.nomeProduto = nomeProduto;
