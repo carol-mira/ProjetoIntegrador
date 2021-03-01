@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 public class Produto {
-	// long= chave primaria
+	// long = chave primaria
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )//talvez tirar 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//Apagou o 2, mas continuou a contagem
 	private Long idProduto; // int
 	
 	@NotNull(message = "Por favor, informe sua marca.")
@@ -42,11 +42,10 @@ public class Produto {
 	//Video sobre o produto 
 	
 	public Produto() {
-		super();
+	
 	}
 	
-	public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
-		super();
+    public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
 		this.idProduto = idProduto;
 		this.marca = marca;
 		this.nomeProduto = nomeProduto;
@@ -82,7 +81,7 @@ public class Produto {
 		return preço;
 	}
 
-	public void setPreço(double preço) {
+	public void setPreço(Double preço) {
 		this.preço = preço;
 	}
 
@@ -94,5 +93,20 @@ public class Produto {
 		this.descrição = descrição;
 	}
 
-	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 }
