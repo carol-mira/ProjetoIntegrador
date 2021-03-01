@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 public class Produto {
-	// long = chave primaria
+	// long= chave primaria
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//Apagou o 2, mas continuou a contagem
+	@GeneratedValue(strategy = GenerationType.IDENTITY )//talvez tirar 
 	private Long idProduto; // int
 	
 	@NotNull(message = "Por favor, informe sua marca.")
@@ -25,25 +25,28 @@ public class Produto {
 	private String nomeProduto;
 	
 	@NotNull(message = "Por favor, informe o preço do produto.")
-	private Double preço;
+	private Double preço; //D ou d 
 	
-	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo?")
+	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
 	@Size(min = 20 , max = 500)
 	private String descrição;
-	
-	//private String url; Qual a plataforma do video? (Rilton ouviu falar sobre facebook, fora yt). Imagem é a mesma coisa.
     
 	@ManyToOne
 	@JsonIgnoreProperties("produtosCategoria")
-	private Categoria categoria; //primeiro anexo de chave secundaria -> gerar get e set deles sempre também
+	private Categoria categoria; //primeiro anexo de chave secundaria 
 	
 	@ManyToOne
-	@JsonIgnoreProperties("produtosUsuario")
+	@JsonIgnoreProperties("produtos")
 	private Usuario usuario; //segundo anexo de chave secundaria 
 	
-	//Video sobre o produto.
-
+	//Video sobre o produto 
+	
+	public Produto() {
+		super();
+	}
+	
 	public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
+		super();
 		this.idProduto = idProduto;
 		this.marca = marca;
 		this.nomeProduto = nomeProduto;
@@ -79,7 +82,7 @@ public class Produto {
 		return preço;
 	}
 
-	public void setPreço(Double preço) {
+	public void setPreço(double preço) {
 		this.preço = preço;
 	}
 
@@ -91,20 +94,5 @@ public class Produto {
 		this.descrição = descrição;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
+	
 }
