@@ -33,11 +33,11 @@ public class Usuario {
 	@Size(min = 3, max = 50)
 	private String nomeCompletoUsuario;
 
-	@NotNull(message = "Para entramos em contato, infome o seu email.")
+	@NotNull(message = "Para entramos em contato infome o seu email.")
 	@Size(min = 3, max = 50)
 	private String emailUsuario;
 
-	@NotNull(message = "Para sua segurança, digite uma senha.") // estruturar melhor para deixar sensitivo
+	@NotNull(message = "Para sua segurança, digite uma senha. ") // estruturar melhor para deixar sensitivo
 	@Size(min = 3, max = 50)
 	private String senhaUsuario;
 
@@ -48,8 +48,8 @@ public class Usuario {
 	public Usuario() {
 
 	}
-	
-	public Usuario(@NotNull @CPF String cpf, String nomeUsuario,String nomeCompletoUsuario, String emailUsuario, 
+
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
 			String senhaUsuario) {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
@@ -57,9 +57,9 @@ public class Usuario {
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
-	
-	public Usuario(@NotNull @CPF String cpf, String nomeSocial, String nomeUsuario,String nomeCompletoUsuario,
-			String emailUsuario,String senhaUsuario) {
+		
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
+			String senhaUsuario) {
 		this.cpf = cpf;
 		this.nomeSocial = nomeSocial;
 		this.nomeUsuario = nomeUsuario;

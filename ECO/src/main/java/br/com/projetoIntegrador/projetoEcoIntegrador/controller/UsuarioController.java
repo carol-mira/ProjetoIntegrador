@@ -2,7 +2,6 @@ package br.com.projetoIntegrador.projetoEcoIntegrador.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +66,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping
+
 	public ResponseEntity<?> post(@Valid @RequestBody Usuario usuario) {
 		Optional<Usuario> usuarioExistente = usuarioRepository.findById(usuario.getCpf());
 		if(usuarioExistente.isPresent()) {
@@ -75,7 +75,7 @@ public class UsuarioController {
 		else {
 			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
 		}
-	} // Obs.Status que volta no postman EX:200 ok
+	}
 
 	@PutMapping // Obs,executa um serviço nesse caso put(colocar)
 	public ResponseEntity<Usuario> put(@RequestBody Usuario usuario) {
