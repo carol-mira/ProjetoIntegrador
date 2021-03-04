@@ -1,5 +1,7 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.controller;
 
+import java.util.Optional;
+
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -18,16 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.Usuario;
+import br.com.projetoIntegrador.projetoEcoIntegrador.model.UsuarioLogin;
 import br.com.projetoIntegrador.projetoEcoIntegrador.repository.UsuarioRepository;
+import br.com.projetoIntegrador.projetoEcoIntegrador.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin("*")
 public class UsuarioController {
-
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> getAll() {
 		return ResponseEntity.ok(usuarioRepository.findAll());
@@ -85,5 +92,17 @@ public class UsuarioController {
 	@DeleteMapping("/{idUsuario}")
 	public void delete(@PathVariable String idUsuario) {
 		usuarioRepository.deleteById(idUsuario);
+	}
+	
+	@PostMapping("/logar")
+	public ResponseEntity<UsuarioLogin> Authentication(@RequestBody Optional<UsuarioLogin> user) {
+		return usuarioService.Logar(user).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	}
+	
+	@PostMapping("/cadastrar")
+	public ResponseEntity<Usuario> Cadastration(@RequestBody Usuario usuario) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(usuarioService.CadastrarUsuario(usuario));
 	}
 }

@@ -42,7 +42,6 @@ public class Produto {
 	//Video sobre o produto 
 	
 	public Produto() {
-	
 	}
 	
     public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
