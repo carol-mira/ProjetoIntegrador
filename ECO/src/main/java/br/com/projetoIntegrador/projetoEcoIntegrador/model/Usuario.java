@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -20,9 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idUsuario;
-
+	@NotNull
 	@CPF
 	private String cpf;
 
@@ -53,33 +49,23 @@ public class Usuario {
 
 	}
 
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
-			String emailUsuario, String senhaUsuario) {
-		this.idUsuario = idUsuario;
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
+			String senhaUsuario) {
+		this.cpf = cpf;
+		this.nomeUsuario = nomeUsuario;
+		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.emailUsuario = emailUsuario;
+		this.senhaUsuario = senhaUsuario;
+	}
+		
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
+			String senhaUsuario) {
 		this.cpf = cpf;
 		this.nomeSocial = nomeSocial;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
-	}
-
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
-			String senhaUsuario) {
-		this.idUsuario = idUsuario;
-		this.cpf = cpf;
-		this.nomeUsuario = nomeUsuario;
-		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.emailUsuario = emailUsuario;
-		this.senhaUsuario = senhaUsuario;
-	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	public String getCpf() {
