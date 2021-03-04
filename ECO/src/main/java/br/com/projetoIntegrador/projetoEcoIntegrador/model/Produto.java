@@ -36,7 +36,7 @@ public class Produto {
 	private Categoria categoria; //primeiro anexo de chave secundaria 
 	
 	@ManyToOne
-	@JsonIgnoreProperties("produtos")
+	@JsonIgnoreProperties("produtosUsuario")
 	private Usuario usuario; //segundo anexo de chave secundaria 
 	
 	//Video sobre o produto 
