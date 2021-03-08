@@ -38,7 +38,6 @@ public class Usuario {
 	private String emailUsuario;
 
 	@NotNull(message = "Para sua segurança, digite uma senha. ") // estruturar melhor para deixar sensitivo
-	@Size(min = 3, max = 50)
 	private String senhaUsuario;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -46,7 +45,6 @@ public class Usuario {
 	private List<Produto> produtosUsuario;
 
 	public Usuario() {
-
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
