@@ -8,17 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.projetoIntegrador.projetoEcoIntegrador.model.Produto;
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.Usuario;
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.UsuarioLogin;
+import br.com.projetoIntegrador.projetoEcoIntegrador.repository.ProdutoRepository;
 import br.com.projetoIntegrador.projetoEcoIntegrador.repository.UsuarioRepository;
-
-
 
 @Service
 public class UsuarioService {
 
 	@Autowired
-	private UsuarioRepository repository;
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	public Usuario CadastrarUsuario(Usuario usuario) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -26,13 +29,13 @@ public class UsuarioService {
 		String senhaEncoder = encoder.encode(usuario.getSenhaUsuario());
 		usuario.setSenhaUsuario(senhaEncoder);
 
-		return repository.save(usuario);
+		return usuarioRepository.save(usuario);
 	}
 
 	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Optional<Usuario> usuario = repository.findByNomeUsuario(user.get().getNomeUsuario());
+		Optional<Usuario> usuario = usuarioRepository.findByNomeUsuario(user.get().getNomeUsuario());
 
 		if (usuario.isPresent()) {
 			if (encoder.matches(user.get().getSenhaUsuario(), usuario.get().getSenhaUsuario())) {
@@ -41,7 +44,7 @@ public class UsuarioService {
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 				String authHeader = "Basic " + new String(encodedAuth);
 
-				user.get().setToken(authHeader);				
+				user.get().setToken(authHeader);
 				user.get().setNomeUsuario(usuario.get().getNomeUsuario());
 				user.get().setSenhaUsuario(usuario.get().getSenhaUsuario());
 
@@ -50,4 +53,44 @@ public class UsuarioService {
 		}
 		return null;
 	}
+
+	// Cadastrar Produto
+
+	public Produto cadastrarProduto(Produto novoProduto, String idUsuario) {
+		Produto produtoExistente = produtoRepository.save(novoProduto);
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
+
+		if (usuarioExistente.isPresent()) {
+			produtoExistente.setUsuario(usuarioExistente.get());
+			return produtoRepository.save(produtoExistente);
+		}
+		return null;
+	}
+
+	// Remover um produto
+	public Usuario deletarProduto(Long idProduto, String idUsuario) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			produtoExistente.get().setUsuario(null);
+			produtoRepository.save(produtoExistente.get());
+			produtoRepository.deleteById(produtoExistente.get().getIdProduto());
+			return usuarioRepository.findById(usuarioExistente.get().getCpf()).get();
+		}
+		return null;
+	}
+
+	// favoritar
+	public Usuario favoritar(String idUsuario, Long idProduto) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			usuarioExistente.get().getMeusFavoritos().add(produtoExistente.get());
+			return usuarioRepository.save(usuarioExistente.get());
+		}
+		return null;
+	}
+
 }

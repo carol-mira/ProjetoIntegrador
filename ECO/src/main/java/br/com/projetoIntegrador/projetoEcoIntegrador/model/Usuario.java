@@ -1,10 +1,15 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,7 +19,6 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-
 public class Usuario {
 
 	@Id
@@ -44,6 +48,14 @@ public class Usuario {
 	@JsonIgnoreProperties("usuario")
 	private List<Produto> produtosUsuario;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(
+	  name = "favoritos", 
+	  joinColumns = @JoinColumn(name = "consumidor_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@JsonIgnoreProperties("favoritadoPor")
+	private List<Produto> meusFavoritos = new ArrayList<>();
+
 	public Usuario() {
 	}
 
@@ -55,9 +67,9 @@ public class Usuario {
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
-		
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
-			String senhaUsuario) {
+
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
+			String emailUsuario, String senhaUsuario) {
 		this.cpf = cpf;
 		this.nomeSocial = nomeSocial;
 		this.nomeUsuario = nomeUsuario;
@@ -121,5 +133,17 @@ public class Usuario {
 	public void setProdutosUsuario(List<Produto> produtosUsuario) {
 		this.produtosUsuario = produtosUsuario;
 	}
+
+	public List<Produto> getMeusFavoritos() {
+		return meusFavoritos;
+	}
+
+	public void setMeusFavoritos(List<Produto> meusFavoritos) {
+		this.meusFavoritos = meusFavoritos;
+	}
+	
+	
+	
+	
 
 }

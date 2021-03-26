@@ -1,9 +1,15 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +45,10 @@ public class Produto {
 	@JsonIgnoreProperties("produtosUsuario")
 	private Usuario usuario; //segundo anexo de chave secundaria 
 	
+	@ManyToMany(mappedBy = "meusFavoritos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"senha", "meusFavoritos", "produtosUsuario"})
+	private List<Usuario> favoritadoPor = new ArrayList<>();
+		
 	//Video sobre o produto 
 	
 	public Produto() {
@@ -107,5 +117,16 @@ public class Produto {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	public List<Usuario> getFavoritadoPor() {
+		return favoritadoPor;
+	}
+
+	public void setFavoritadoPor(List<Usuario> favoritadoPor) {
+		this.favoritadoPor = favoritadoPor;
+	}
+
+	
+	
 
 }
