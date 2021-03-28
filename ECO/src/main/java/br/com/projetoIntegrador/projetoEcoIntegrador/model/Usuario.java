@@ -1,11 +1,11 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,11 +29,17 @@ public class Usuario {
 	@CPF
 	private String cpf;
 
+	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
 	private String nomeSocial;
+
+	@NotNull(message = "Preciso de um apelido. Como devo te chamar?")
+	@Size(min = 3, max = 50)
+	private String nomeUsuario;
 
 	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
 	@Size(min = 3, max = 50)
 	private String nomeCompletoUsuario;
+
 
 	@Size(min = 4, max = 20, message = "Insira um nome para te encontrarem")
 	private String nomeUsuario;
@@ -79,14 +85,7 @@ public class Usuario {
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
 			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
-		this.cpf = cpf;
-		this.nomeSocial = nomeSocial;
-		this.nomeUsuario = nomeUsuario;
-		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.dataAniversario = dataAniversario;
-		this.emailUsuario = emailUsuario;
-		this.senhaUsuario = senhaUsuario;
-	}
+
 
 	public String getCpf() {
 		return cpf;
@@ -126,7 +125,6 @@ public class Usuario {
 
 	public void setDataAniversario(Date dataAniversario) {
 		this.dataAniversario = dataAniversario;
-	}
 
 	public String getEmailUsuario() {
 		return emailUsuario;
@@ -175,5 +173,9 @@ public class Usuario {
 	public void setMinhasCompras(List<Produto> minhasCompras) {
 		this.minhasCompras = minhasCompras;
 	}
+    
+ }
+	
+	
+	
 
-}

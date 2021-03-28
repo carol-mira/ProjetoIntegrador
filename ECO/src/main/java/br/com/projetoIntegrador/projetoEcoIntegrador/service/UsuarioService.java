@@ -35,6 +35,7 @@ public class UsuarioService {
 	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 		Optional<Usuario> usuario = usuarioRepository.findByEmailUsuario(user.get().getEmailUsuario());
 
 		if (usuario.isPresent()) {

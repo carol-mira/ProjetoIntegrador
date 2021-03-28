@@ -151,7 +151,4 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(retorno, HttpStatus.ACCEPTED);
 	}
 	
-	
-	
-	
 }

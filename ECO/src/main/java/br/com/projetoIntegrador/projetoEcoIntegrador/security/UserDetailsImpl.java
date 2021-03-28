@@ -17,6 +17,7 @@ public class UserDetailsImpl implements UserDetails{
 	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Usuario user) {
+
 		this.emailUsuario = user.getEmailUsuario();
 		this.password = user.getSenhaUsuario();		
 	}
@@ -58,5 +59,4 @@ public class UserDetailsImpl implements UserDetails{
 		return true;
 	}
 
-	
 } 

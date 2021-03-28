@@ -1,5 +1,6 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
+
 import java.util.Date;
 
 public class UsuarioLogin {
