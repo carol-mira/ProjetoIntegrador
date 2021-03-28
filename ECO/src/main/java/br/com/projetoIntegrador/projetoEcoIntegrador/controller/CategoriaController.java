@@ -61,4 +61,4 @@ public class CategoriaController {
 		categoriaRepository.deleteById(idCategoria);
 		return ResponseEntity.ok(categoriaRepository.findAll());
 	}
-	}
+}

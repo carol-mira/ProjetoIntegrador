@@ -3,6 +3,7 @@ package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Usuario {
-
-	
 
 	@Id
 	@NotNull
@@ -48,8 +47,8 @@ public class Usuario {
 
 	@NotNull(message = "Para sua segurança, digite uma senha. ") // estruturar melhor para deixar sensitivo
 	private String senhaUsuario;
-	
-	private Integer contadorArvore=0;
+
+	private Integer contadorArvore = 0;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
@@ -59,7 +58,7 @@ public class Usuario {
 	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	@JsonIgnoreProperties("favoritadoPor")
 	private List<Produto> meusFavoritos = new ArrayList<>();
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	@JsonIgnoreProperties("compradoPor")
@@ -68,8 +67,8 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, Date dataAniversario, String emailUsuario,
-			String senhaUsuario) throws ParseException {
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
@@ -78,8 +77,8 @@ public class Usuario {
 		this.senhaUsuario = senhaUsuario;
 	}
 
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, Date dataAniversario,
-			String emailUsuario, String senhaUsuario) throws ParseException {
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeSocial = nomeSocial;
 		this.nomeUsuario = nomeUsuario;
@@ -176,9 +175,5 @@ public class Usuario {
 	public void setMinhasCompras(List<Produto> minhasCompras) {
 		this.minhasCompras = minhasCompras;
 	}
-	
-	
-	
-	
 
 }
