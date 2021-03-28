@@ -1,9 +1,8 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.controller;
 
-import java.util.Optional;
-
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.projetoIntegrador.projetoEcoIntegrador.model.Produto;
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.Usuario;
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.UsuarioLogin;
 import br.com.projetoIntegrador.projetoEcoIntegrador.repository.UsuarioRepository;
@@ -83,15 +83,49 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
 		}
 	}
+	
+
+	@PostMapping("/produto/novo/{id_Usuario}")
+	public ResponseEntity<?> novoProduto(
+			@PathVariable(value = "id_Usuario") String idUsuario,
+			@Valid @RequestBody Produto novoProduto){
+		Produto cadastro =  usuarioService.cadastrarProduto(novoProduto, idUsuario);
+		if(cadastro == null) {
+			return new ResponseEntity<String>("Falha no cadastro", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Produto>(cadastro, HttpStatus.CREATED);
+	}
 
 	@PutMapping // Obs,executa um serviço nesse caso put(colocar)
 	public ResponseEntity<Usuario> put(@RequestBody Usuario usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
 	}
+	
+	@PutMapping("/produto/favoritar/{id_Produto}/{id_Usuario}")
+	public ResponseEntity<?> novoFavorito(
+			@PathVariable(value = "id_Produto") Long idProduto,
+			@PathVariable(value = "id_Usuario") String idUsuario){
+		Usuario favorito = usuarioService.favoritar(idUsuario, idProduto);
+		if(favorito == null) {
+			return new ResponseEntity<String>("Produto ou usuário inválido", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Usuario>(favorito, HttpStatus.CREATED);
+	}
 
 	@DeleteMapping("/{idUsuario}")
 	public void delete(@PathVariable String idUsuario) {
 		usuarioRepository.deleteById(idUsuario);
+	}
+	
+	@DeleteMapping("/produto/delete/{id_Produto}/{id_Usuario}")
+	public ResponseEntity<?> removerProduto(
+			@PathVariable(value = "id_Produto") Long idProduto,
+			@PathVariable(value = "id_Usuario") String idUsuario){
+		Usuario retorno = usuarioService.deletarProduto(idProduto, idUsuario);
+		if(retorno == null) {
+			return new ResponseEntity<String>("Produto ou usuário inválido", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Usuario>(retorno, HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping("/logar")
