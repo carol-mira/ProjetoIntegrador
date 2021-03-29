@@ -1,7 +1,6 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,7 @@ public class Categoria {
 	private String departamento;
 
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("categoria")
+	@JsonIgnoreProperties({"categoria"})
 	private List<Produto> produtosCategoria;
 
 	public Categoria() {
@@ -51,11 +50,11 @@ public class Categoria {
 		this.departamento = departamento;
 	}
 
-	public List<Produto> getProdutosCateoria() {
+	public List<Produto> getProdutosCategoria() {
 		return produtosCategoria;
 	}
 
-	public void setProdutos(List<Produto> produtosCategoria) {
+	public void setProdutosCategoria(List<Produto> produtosCategoria) {
 		this.produtosCategoria = produtosCategoria;
 	}
 }
