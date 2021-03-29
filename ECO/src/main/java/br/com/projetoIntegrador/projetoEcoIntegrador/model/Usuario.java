@@ -1,68 +1,181 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
-import java.util.List;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-
 public class Usuario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//talvez tirar 
-	private Long idUsuario;
-	
-	@Size(min = 3 , max = 50) //controller tem que chamar pelo nome social 
+	@NotNull
+	@CPF
+	private String cpf;
+
+	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
 	private String nomeSocial;
-	
+
 	@NotNull(message = "Preciso de um apelido. Como devo te chamar?")
-	@Size(min = 3 , max = 50)
+	@Size(min = 3, max = 50)
 	private String nomeUsuario;
 
 	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
-	@Size(min = 3 , max = 50)
+	@Size(min = 3, max = 50)
 	private String nomeCompletoUsuario;
-	
+
+
+	@Size(min = 4, max = 20, message = "Insira um nome para te encontrarem")
+	private String nomeUsuario;
+
+	@NotNull(message = "Informe sua data de nascimento, por favor")
+	private Date dataAniversario;
+
 	@NotNull(message = "Para entramos em contato infome o seu email.")
-	@Size(min = 3 , max = 50)
+	@Size(min = 3, max = 50)
 	private String emailUsuario;
-	
-	@NotNull(message = "Para sua segurança, digite uma senha. ")//estruturar melhor para deixar sensitivo (Valid faz quantidade de caracteres e tal. CaseSensitive é no front.)
-	@Size(min = 3 , max = 50)
+
+	@NotNull(message = "Para sua segurança, digite uma senha. ") // estruturar melhor para deixar sensitivo
 	private String senhaUsuario;
-	
-	@OneToMany(mappedBy =  "usuario" , cascade = CascadeType.ALL)
+
+	private Integer contadorArvore = 0;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
+	private List<Produto> produtosUsuario;
 
-	private List<Produto> produtosUsuarios;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@JsonIgnoreProperties("favoritadoPor")
+	private List<Produto> meusFavoritos = new ArrayList<>();
 
-	public Usuario(Long idUsuario,String nomeSocial, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario, String senhaUsuario,
-			List<Produto> produtosUsuarios) {
-		this.idUsuario = idUsuario;
-		this.nomeSocial = nomeSocial;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@JsonIgnoreProperties("compradoPor")
+	private List<Produto> minhasCompras = new ArrayList<>();
+
+	public Usuario() {
+	}
+
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
-		this.produtosUsuarios = produtosUsuarios;
 	}
 
-	public Usuario(Long idUsuario, String nomeUsuario, String emailUsuario, String senhaUsuario,String nomeCompletoUsuario) {
-		this.idUsuario = idUsuario;
-		this.nomeUsuario = nomeUsuario;
-		this.emailUsuario = emailUsuario;
-		this.senhaUsuario = senhaUsuario;
-		this.nomeCompletoUsuario= nomeCompletoUsuario;
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+
+
+	public String getCpf() {
+		return cpf;
 	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getNomeSocial() {
+		return nomeSocial;
+	}
+
+	public void setNomeSocial(String nomeSocial) {
+		this.nomeSocial = nomeSocial;
+	}
+
+	public String getNomeCompletoUsuario() {
+		return nomeCompletoUsuario;
+	}
+
+	public void setNomeCompletoUsuario(String nomeCompletoUsuario) {
+		this.nomeCompletoUsuario = nomeCompletoUsuario;
+	}
+
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+
+	public Date getDataAniversario() {
+		return dataAniversario;
+	}
+
+	public void setDataAniversario(Date dataAniversario) {
+		this.dataAniversario = dataAniversario;
+
+	public String getEmailUsuario() {
+		return emailUsuario;
+	}
+
+	public void setEmailUsuario(String emailUsuario) {
+		this.emailUsuario = emailUsuario;
+	}
+
+	public String getSenhaUsuario() {
+		return senhaUsuario;
+	}
+
+	public void setSenhaUsuario(String senhaUsuario) {
+		this.senhaUsuario = senhaUsuario;
+	}
+
+	public List<Produto> getProdutosUsuario() {
+		return produtosUsuario;
+	}
+
+	public void setProdutosUsuario(List<Produto> produtosUsuario) {
+		this.produtosUsuario = produtosUsuario;
+	}
+
+	public List<Produto> getMeusFavoritos() {
+		return meusFavoritos;
+	}
+
+	public void setMeusFavoritos(List<Produto> meusFavoritos) {
+		this.meusFavoritos = meusFavoritos;
+	}
+
+	public Integer getContadorArvore() {
+		return contadorArvore;
+	}
+
+	public void setContadorArvore(Integer contadorArvore) {
+		this.contadorArvore = contadorArvore;
+	}
+
+	public List<Produto> getMinhasCompras() {
+		return minhasCompras;
+	}
+
+	public void setMinhasCompras(List<Produto> minhasCompras) {
+		this.minhasCompras = minhasCompras;
+	}
+    
+ }
+	
+	
 	
 
-}
