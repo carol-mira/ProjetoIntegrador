@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -21,45 +22,52 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Produto {
 	// long = chave primaria
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//Apagou o 2, mas continuou a contagem
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Apagou o 2, mas continuou a contagem
 	private Long idProduto; // int
-	
-	@NotNull(message = "Por favor, informe sua marca.")
-	private String marca;
-	
+
 	@NotNull(message = "Por favor, informe seu produto.")
 	private String nomeProduto;
-	
+
 	@NotNull(message = "Por favor, informe o preço do produto.")
-	private Double preço; //D ou d 
-	
+	private Double preco; // D ou d
+
 	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
-	@Size(min = 20 , max = 500)
-	private String descrição;
-    
+	@Size(min = 20, max = 500)
+	private String descricao;
+
 	@ManyToOne
-	@JsonIgnoreProperties("produtosCategoria")
-	private Categoria categoria; //primeiro anexo de chave secundaria 
-	
+	@JoinColumn(name = "categoria_id")
+	@NotNull (message = "Por favor, Inclua uma categoria.")
+	@JsonIgnoreProperties({"produtosCategoria"})
+	private Categoria categoria; // primeiro anexo de chave secundaria
+
 	@ManyToOne
-	@JsonIgnoreProperties("produtosUsuario")
-	private Usuario usuario; //segundo anexo de chave secundaria 
-	
+	@JsonIgnoreProperties({"produtosUsuario","senhaUsuario"})
+	private Usuario usuario; // segundo anexo de chave secundaria
+
 	@ManyToMany(mappedBy = "meusFavoritos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senha", "meusFavoritos", "produtosUsuario"})
+	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario" })
 	private List<Usuario> favoritadoPor = new ArrayList<>();
-		
-	//Video sobre o produto 
-	
+
+	@ManyToMany(mappedBy = "minhasCompras", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras" })
+	private List<Usuario> compradoPor = new ArrayList<>();
+
+	// Video sobre o produto
+
 	public Produto() {
 	}
-	
-    public Produto(Long idProduto, String marca, String nomeProduto, double preço, String descrição) {
+
+	public Produto(Long idProduto, String nomeProduto, Double preco, String descricao, Categoria categoria,
+			Usuario usuario) {
+
 		this.idProduto = idProduto;
-		this.marca = marca;
 		this.nomeProduto = nomeProduto;
-		this.preço = preço;
-		this.descrição = descrição;
+		this.preco = preco;
+		this.descricao = descricao;
+		this.categoria = categoria;
+		this.usuario = usuario;
+
 	}
 
 	public Long getIdProduto() {
@@ -70,14 +78,6 @@ public class Produto {
 		this.idProduto = idProduto;
 	}
 
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
@@ -86,20 +86,20 @@ public class Produto {
 		this.nomeProduto = nomeProduto;
 	}
 
-	public double getPreço() {
-		return preço;
+	public Double getPreco() {
+		return preco;
 	}
 
-	public void setPreço(Double preço) {
-		this.preço = preço;
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
-	public String getDescrição() {
-		return descrição;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setDescrição(String descrição) {
-		this.descrição = descrição;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public Categoria getCategoria() {
@@ -126,7 +126,12 @@ public class Produto {
 		this.favoritadoPor = favoritadoPor;
 	}
 
-	
-	
+	public List<Usuario> getCompradoPor() {
+		return compradoPor;
+	}
+
+	public void setCompradoPor(List<Usuario> compradoPor) {
+		this.compradoPor = compradoPor;
+	}
 
 }

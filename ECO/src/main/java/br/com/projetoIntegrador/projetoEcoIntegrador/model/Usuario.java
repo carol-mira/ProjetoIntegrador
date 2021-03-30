@@ -1,8 +1,10 @@
 package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,13 +31,17 @@ public class Usuario {
 	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
 	private String nomeSocial;
 
-	@NotNull(message = "Preciso de um apelido. Como devo te chamar?")
-	@Size(min = 3, max = 50)
-	private String nomeUsuario;
 
 	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
 	@Size(min = 3, max = 50)
 	private String nomeCompletoUsuario;
+
+
+	@Size(min = 4, max = 20, message = "Insira um nome para te encontrarem")
+	private String nomeUsuario;
+
+	@NotNull(message = "Informe sua data de nascimento, por favor")
+	private Date dataAniversario;
 
 	@NotNull(message = "Para entramos em contato infome o seu email.")
 	@Size(min = 3, max = 50)
@@ -44,39 +50,48 @@ public class Usuario {
 	@NotNull(message = "Para sua segurança, digite uma senha. ") // estruturar melhor para deixar sensitivo
 	private String senhaUsuario;
 
+	private Integer contadorArvore = 0;
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
 	private List<Produto> produtosUsuario;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(
-	  name = "favoritos", 
-	  joinColumns = @JoinColumn(name = "consumidor_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	@JsonIgnoreProperties("favoritadoPor")
 	private List<Produto> meusFavoritos = new ArrayList<>();
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@JsonIgnoreProperties("compradoPor")
+	private List<Produto> minhasCompras = new ArrayList<>();
 
 	public Usuario() {
 	}
 
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario, String emailUsuario,
-			String senhaUsuario) {
+	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
-			String emailUsuario, String senhaUsuario) {
+			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
-		this.nomeSocial = nomeSocial;
 		this.nomeUsuario = nomeUsuario;
+		this.nomeSocial = nomeSocial;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
+	
+	
+
 
 	public String getCpf() {
 		return cpf;
@@ -94,6 +109,14 @@ public class Usuario {
 		this.nomeSocial = nomeSocial;
 	}
 
+	public String getNomeCompletoUsuario() {
+		return nomeCompletoUsuario;
+	}
+
+	public void setNomeCompletoUsuario(String nomeCompletoUsuario) {
+		this.nomeCompletoUsuario = nomeCompletoUsuario;
+	}
+
 	public String getNomeUsuario() {
 		return nomeUsuario;
 	}
@@ -102,12 +125,12 @@ public class Usuario {
 		this.nomeUsuario = nomeUsuario;
 	}
 
-	public String getNomeCompletoUsuario() {
-		return nomeCompletoUsuario;
+	public Date getDataAniversario() {
+		return dataAniversario;
 	}
 
-	public void setNomeCompletoUsuario(String nomeCompletoUsuario) {
-		this.nomeCompletoUsuario = nomeCompletoUsuario;
+	public void setDataAniversario(Date dataAniversario) {
+		this.dataAniversario = dataAniversario;
 	}
 
 	public String getEmailUsuario() {
@@ -141,9 +164,25 @@ public class Usuario {
 	public void setMeusFavoritos(List<Produto> meusFavoritos) {
 		this.meusFavoritos = meusFavoritos;
 	}
-	
+
+	public Integer getContadorArvore() {
+		return contadorArvore;
+	}
+
+	public void setContadorArvore(Integer contadorArvore) {
+		this.contadorArvore = contadorArvore;
+	}
+
+	public List<Produto> getMinhasCompras() {
+		return minhasCompras;
+	}
+
+	public void setMinhasCompras(List<Produto> minhasCompras) {
+		this.minhasCompras = minhasCompras;
+	}
+    
+ }
 	
 	
 	
 
-}

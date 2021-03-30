@@ -95,6 +95,29 @@ public class UsuarioController {
 		}
 		return new ResponseEntity<Produto>(cadastro, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/logar")
+	public ResponseEntity<UsuarioLogin> Authentication(@RequestBody Optional<UsuarioLogin> user) {
+		return usuarioService.Logar(user).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	}
+	
+	@PostMapping("/cadastrar")
+	public ResponseEntity<Usuario> Cadastration(@RequestBody Usuario usuario) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(usuarioService.CadastrarUsuario(usuario));
+	}
+	
+	@PutMapping("/produto/compra/{id_Produto}/{id_Usuario}")
+	public ResponseEntity<?> novaCompra(
+			@PathVariable(value = "id_Produto") Long idProduto,
+			@PathVariable(value = "id_Usuario") String idUsuario){
+		Usuario compra = usuarioService.comprarProduto(idUsuario, idProduto);
+		if(compra == null) {
+			return new ResponseEntity<String>("Produto ou Usuario invalido", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Usuario>(compra, HttpStatus.CREATED);
+	}
 
 	@PutMapping // Obs,executa um serviço nesse caso put(colocar)
 	public ResponseEntity<Usuario> put(@RequestBody Usuario usuario) {
@@ -128,15 +151,4 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(retorno, HttpStatus.ACCEPTED);
 	}
 	
-	@PostMapping("/logar")
-	public ResponseEntity<UsuarioLogin> Authentication(@RequestBody Optional<UsuarioLogin> user) {
-		return usuarioService.Logar(user).map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-	}
-	
-	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> Cadastration(@RequestBody Usuario usuario) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(usuarioService.CadastrarUsuario(usuario));
-	}
 }

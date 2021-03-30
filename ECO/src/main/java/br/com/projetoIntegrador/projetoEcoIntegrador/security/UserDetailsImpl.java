@@ -12,12 +12,13 @@ import br.com.projetoIntegrador.projetoEcoIntegrador.model.Usuario;
 public class UserDetailsImpl implements UserDetails{
 	private static final long serialVersionUID = 1L;
 
-	private String userName;
+	private String emailUsuario;
 	private String password;
 	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Usuario user) {
-		this.userName = user.getNomeUsuario();
+
+		this.emailUsuario = user.getEmailUsuario();
 		this.password = user.getSenhaUsuario();		
 	}
 
@@ -35,7 +36,7 @@ public class UserDetailsImpl implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return userName;
+		return emailUsuario;
 	}
 
 	@Override
@@ -57,4 +58,5 @@ public class UserDetailsImpl implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
+
 } 
