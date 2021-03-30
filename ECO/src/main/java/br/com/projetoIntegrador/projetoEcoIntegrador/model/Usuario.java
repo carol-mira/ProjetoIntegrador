@@ -4,7 +4,6 @@ package br.com.projetoIntegrador.projetoEcoIntegrador.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,9 +31,6 @@ public class Usuario {
 	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
 	private String nomeSocial;
 
-	@NotNull(message = "Preciso de um apelido. Como devo te chamar?")
-	@Size(min = 3, max = 50)
-	private String nomeUsuario;
 
 	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
 	@Size(min = 3, max = 50)
@@ -85,6 +81,16 @@ public class Usuario {
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
 			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+		this.cpf = cpf;
+		this.nomeUsuario = nomeUsuario;
+		this.nomeSocial = nomeSocial;
+		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.dataAniversario = dataAniversario;
+		this.emailUsuario = emailUsuario;
+		this.senhaUsuario = senhaUsuario;
+	}
+	
+	
 
 
 	public String getCpf() {
@@ -125,6 +131,7 @@ public class Usuario {
 
 	public void setDataAniversario(Date dataAniversario) {
 		this.dataAniversario = dataAniversario;
+	}
 
 	public String getEmailUsuario() {
 		return emailUsuario;

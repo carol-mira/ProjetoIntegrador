@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoIntegrador.projetoEcoIntegrador.model.Produto;
@@ -43,6 +44,14 @@ public class ProdutoController {
 	@GetMapping("/produto/{nomeProduto}")
 	public ResponseEntity<List<Produto>> getByNomeProduto(@PathVariable String nomeProduto) {
 		return ResponseEntity.ok(produtoRepository.findAllByNomeProdutoContainingIgnoreCase(nomeProduto));
+	}
+	
+	@GetMapping("/testeboaz")
+	public ResponseEntity<?> consutaBoaz(
+			@RequestParam (defaultValue = "") String categoria,
+			@RequestParam (defaultValue = "") String nomeProduto){
+		return ResponseEntity.ok(produtoRepository.findAllBatatinhas(categoria,
+				nomeProduto));
 	}
 
 	@PostMapping
