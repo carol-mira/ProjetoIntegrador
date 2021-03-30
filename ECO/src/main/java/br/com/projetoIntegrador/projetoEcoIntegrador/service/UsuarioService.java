@@ -35,17 +35,18 @@ public class UsuarioService {
 	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Optional<Usuario> usuario = usuarioRepository.findByNomeUsuario(user.get().getNomeUsuario());
+
+		Optional<Usuario> usuario = usuarioRepository.findByEmailUsuario(user.get().getEmailUsuario());
 
 		if (usuario.isPresent()) {
 			if (encoder.matches(user.get().getSenhaUsuario(), usuario.get().getSenhaUsuario())) {
 
-				String auth = user.get().getNomeUsuario() + ":" + user.get().getSenhaUsuario();
+				String auth = user.get().getEmailUsuario() + ":" + user.get().getSenhaUsuario();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 				String authHeader = "Basic " + new String(encodedAuth);
 
 				user.get().setToken(authHeader);
-				user.get().setNomeUsuario(usuario.get().getNomeUsuario());
+				user.get().setEmailUsuario(usuario.get().getEmailUsuario());
 				user.get().setSenhaUsuario(usuario.get().getSenhaUsuario());
 
 				return user;
@@ -92,5 +93,18 @@ public class UsuarioService {
 		}
 		return null;
 	}
+	
+	// Efetuar Compra
+		public Usuario comprarProduto(String idUsuario, Long idProduto) {
+			Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
+			Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+			
+			if(usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+				usuarioExistente.get().getMinhasCompras().add(produtoExistente.get());
+				usuarioExistente.get().setContadorArvore(usuarioExistente.get().getContadorArvore()+1);
+				return usuarioRepository.save(usuarioExistente.get());
+			}
+			return null;
+		}
 
 }

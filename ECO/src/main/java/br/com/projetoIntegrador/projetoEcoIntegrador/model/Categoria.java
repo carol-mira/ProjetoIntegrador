@@ -15,18 +15,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 public class Categoria {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//talvez tirar 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // talvez tirar
 	private Long idCategoria;
-	
+
 	@NotNull(message = "Por favor, insira o departamento do seu produto.")
 	private String departamento;
-	
+
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("categoria")
 	private List<Produto> produtosCategoria;
-	
+
 	public Categoria() {
 	}
 

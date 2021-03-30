@@ -61,8 +61,4 @@ public class CategoriaController {
 		categoriaRepository.deleteById(idCategoria);
 		return ResponseEntity.ok(categoriaRepository.findAll());
 	}
-	// @DeleteMapping("/{idCategoria}")
-	// public ResponseEntity delete(@PathVariable Long idCategoria) {
-	// categoriaRepository.deleteById(idCategoria);
-	// }
 }
