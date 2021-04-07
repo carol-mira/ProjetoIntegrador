@@ -28,7 +28,7 @@ public class Usuario {
 	@CPF
 	private String cpf;
 
-	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
+	@Size(min = 3, max = 50)
 	private String nomeSocial;
 
 
@@ -55,12 +55,12 @@ public class Usuario {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-	@JsonIgnoreProperties("favoritadoPor")
+	@JsonIgnoreProperties("usuario")
 	private List<Produto> meusFavoritos = new ArrayList<>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-	@JsonIgnoreProperties("compradoPor")
+	@JsonIgnoreProperties("usuario")
 	private List<Produto> minhasCompras = new ArrayList<>();
 
 	public Usuario() {
@@ -166,7 +166,4 @@ public class Usuario {
 	}
     
  }
-	
-	
-	
 

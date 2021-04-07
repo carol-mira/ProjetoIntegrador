@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Categoria {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // talvez tirar
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCategoria;
 
 	@NotNull(message = "Por favor, insira o departamento do seu produto.")

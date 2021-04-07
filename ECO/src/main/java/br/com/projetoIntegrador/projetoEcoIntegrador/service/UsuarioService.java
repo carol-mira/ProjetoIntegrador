@@ -99,6 +99,17 @@ public class UsuarioService {
 		return null;
 	}
 	
+	public Usuario desfavoritar(String cpf, Long idProduto) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(cpf);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+		
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			usuarioExistente.get().getMeusFavoritos().remove(produtoExistente.get());
+			return usuarioRepository.save(usuarioExistente.get());
+		}
+		return null;
+	}
+	
 		public Usuario comprarProduto(String idUsuario, Long idProduto) {
 			Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
 			Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
