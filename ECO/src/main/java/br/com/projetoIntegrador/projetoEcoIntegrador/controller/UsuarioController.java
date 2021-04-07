@@ -71,6 +71,16 @@ public class UsuarioController {
 	public ResponseEntity<List<Usuario>> getByProdutosUsuario(@PathVariable String produtosUsuario) {
 		return ResponseEntity.ok(usuarioRepository.findAllByProdutosUsuarioContainingIgnoreCase(produtosUsuario));
 	}
+	
+	@GetMapping("/meusFavoritos/{meusFavoritos}")
+	public ResponseEntity<List<Usuario>> getByMeusFavoritos(@PathVariable String meusFavoritos) {
+		return ResponseEntity.ok(usuarioRepository.findAllByMeusFavoritosContainingIgnoreCase(meusFavoritos));
+	}
+	
+	@GetMapping("/minhasCompras/{minhasCompras}")
+	public ResponseEntity<List<Usuario>> getByMinhasCompras(@PathVariable String minhasCompras) {
+		return ResponseEntity.ok(usuarioRepository.findAllByMinhasComprasContainingIgnoreCase(minhasCompras));
+	}
 
 	@PostMapping
 	public ResponseEntity<?> post(@Valid @RequestBody Usuario usuario) {
@@ -82,7 +92,6 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
 		}
 	}
-	
 
 	@PostMapping("/produto/novo/{cpf}")
 	public ResponseEntity<?> novoProduto(
@@ -144,6 +153,17 @@ public class UsuarioController {
 			@PathVariable(value = "id_Produto") Long idProduto,
 			@PathVariable(value = "cpf") String cpf){
 		Usuario retorno = usuarioService.deletarProduto(idProduto, cpf);
+		if(retorno == null) {
+			return new ResponseEntity<String>("Produto ou usuário inválido", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Usuario>(retorno, HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/produto/desfavoritar/{id_Produto}/{cpf}")
+	public ResponseEntity<?> desfavoritar(
+			@PathVariable(value = "id_Produto") Long idProduto,
+			@PathVariable(value = "cpf") String cpf){
+		Usuario retorno = usuarioService.desfavoritar(cpf, idProduto);
 		if(retorno == null) {
 			return new ResponseEntity<String>("Produto ou usuário inválido", HttpStatus.NO_CONTENT);
 		}

@@ -50,7 +50,6 @@ public class UsuarioService {
 				user.get().setNomeSocial(usuario.get().getNomeSocial());
 				user.get().setNomeCompletoUsuario(usuario.get().getNomeCompletoUsuario());
 				user.get().setNomeUsuario(usuario.get().getNomeUsuario());
-				user.get().setDataAniversario(usuario.get().getDataAniversario());
 				user.get().setEmailUsuario(usuario.get().getEmailUsuario());
 				user.get().setSenhaUsuario(usuario.get().getSenhaUsuario());
 				user.get().setContadorArvore(usuario.get().getContadorArvore());
@@ -95,6 +94,17 @@ public class UsuarioService {
 
 		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
 			usuarioExistente.get().getMeusFavoritos().add(produtoExistente.get());
+			return usuarioRepository.save(usuarioExistente.get());
+		}
+		return null;
+	}
+	
+	public Usuario desfavoritar(String cpf, Long idProduto) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(cpf);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+		
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			usuarioExistente.get().getMeusFavoritos().remove(produtoExistente.get());
 			return usuarioRepository.save(usuarioExistente.get());
 		}
 		return null;

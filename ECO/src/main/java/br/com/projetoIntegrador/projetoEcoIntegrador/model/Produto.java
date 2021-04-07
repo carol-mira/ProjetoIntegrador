@@ -45,11 +45,11 @@ public class Produto {
 	private Usuario usuario;
 
 	@ManyToMany(mappedBy = "meusFavoritos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario" })
+	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario", "meusProdutos" })
 	private List<Usuario> favoritadoPor = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "minhasCompras", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras" })
+	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras", "meusFavoritos" })
 	private List<Usuario> compradoPor = new ArrayList<>();
 
 	@NotNull
