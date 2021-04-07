@@ -50,7 +50,6 @@ public class UsuarioService {
 				user.get().setNomeSocial(usuario.get().getNomeSocial());
 				user.get().setNomeCompletoUsuario(usuario.get().getNomeCompletoUsuario());
 				user.get().setNomeUsuario(usuario.get().getNomeUsuario());
-				user.get().setDataAniversario(usuario.get().getDataAniversario());
 				user.get().setEmailUsuario(usuario.get().getEmailUsuario());
 				user.get().setSenhaUsuario(usuario.get().getSenhaUsuario());
 				user.get().setContadorArvore(usuario.get().getContadorArvore());

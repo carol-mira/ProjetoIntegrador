@@ -11,7 +11,6 @@ public class UsuarioLogin {
 	private String nomeSocial;
 	private String nomeCompletoUsuario;
 	private String nomeUsuario;
-	private Date dataAniversario;
 	private String emailUsuario;
 	private String senhaUsuario;
 	private Integer contadorArvore = 0;
@@ -50,14 +49,6 @@ public class UsuarioLogin {
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
-	}
-
-	public Date getDataAniversario() {
-		return dataAniversario;
-	}
-
-	public void setDataAniversario(Date dataAniversario) {
-		this.dataAniversario = dataAniversario;
 	}
 
 	public String getEmailUsuario() {
