@@ -40,9 +40,6 @@ public class Usuario {
 	@Size(min = 4, max = 20, message = "Insira um nome para te encontrarem")
 	private String nomeUsuario;
 
-	@NotNull(message = "Informe sua data de nascimento, por favor")
-	private Date dataAniversario;
-
 	@NotNull(message = "Para entramos em contato infome o seu email.")
 	@Size(min = 3, max = 50)
 	private String emailUsuario;
@@ -70,28 +67,23 @@ public class Usuario {
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
-			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+			String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
-			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+			String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeSocial = nomeSocial;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
-	
-	
-
 
 	public String getCpf() {
 		return cpf;
@@ -123,14 +115,6 @@ public class Usuario {
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
-	}
-
-	public Date getDataAniversario() {
-		return dataAniversario;
-	}
-
-	public void setDataAniversario(Date dataAniversario) {
-		this.dataAniversario = dataAniversario;
 	}
 
 	public String getEmailUsuario() {
