@@ -28,7 +28,7 @@ public class Usuario {
 	@CPF
 	private String cpf;
 
-	@Size(min = 3, max = 50) // controller tem que chamar pelo nome social
+	@Size(min = 3, max = 50)
 	private String nomeSocial;
 
 
@@ -39,9 +39,6 @@ public class Usuario {
 
 	@Size(min = 4, max = 20, message = "Insira um nome para te encontrarem")
 	private String nomeUsuario;
-
-	@NotNull(message = "Informe sua data de nascimento, por favor")
-	private Date dataAniversario;
 
 	@NotNull(message = "Para entramos em contato infome o seu email.")
 	@Size(min = 3, max = 50)
@@ -58,40 +55,35 @@ public class Usuario {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-	@JsonIgnoreProperties("favoritadoPor")
+	@JsonIgnoreProperties("usuario")
 	private List<Produto> meusFavoritos = new ArrayList<>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-	@JsonIgnoreProperties("compradoPor")
+	@JsonIgnoreProperties("usuario")
 	private List<Produto> minhasCompras = new ArrayList<>();
 
 	public Usuario() {
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
-			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+			String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
-			Date dataAniversario, String emailUsuario, String senhaUsuario) throws ParseException {
+			String emailUsuario, String senhaUsuario) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeSocial = nomeSocial;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
-		this.dataAniversario = dataAniversario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
-	
-	
-
 
 	public String getCpf() {
 		return cpf;
@@ -123,14 +115,6 @@ public class Usuario {
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
-	}
-
-	public Date getDataAniversario() {
-		return dataAniversario;
-	}
-
-	public void setDataAniversario(Date dataAniversario) {
-		this.dataAniversario = dataAniversario;
 	}
 
 	public String getEmailUsuario() {
@@ -182,7 +166,4 @@ public class Usuario {
 	}
     
  }
-	
-	
-	
 

@@ -20,16 +20,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 
 public class Produto {
-	// long = chave primaria
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // Apagou o 2, mas continuou a contagem
-	private Long idProduto; // int
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idProduto; 
 
 	@NotNull(message = "Por favor, informe seu produto.")
 	private String nomeProduto;
 
 	@NotNull(message = "Por favor, informe o preço do produto.")
-	private Double preco; // D ou d
+	private Double preco; 
 
 	@NotNull(message = "Uma descrição é importante para obter confiança em seu produto. Que tal descrevê-lo ? ")
 	@Size(min = 20, max = 500)
@@ -39,35 +38,49 @@ public class Produto {
 	@JoinColumn(name = "categoria_id")
 	@NotNull (message = "Por favor, Inclua uma categoria.")
 	@JsonIgnoreProperties({"produtosCategoria"})
-	private Categoria categoria; // primeiro anexo de chave secundaria
+	private Categoria categoria;
 
 	@ManyToOne
 	@JsonIgnoreProperties({"produtosUsuario","senhaUsuario"})
-	private Usuario usuario; // segundo anexo de chave secundaria
+	private Usuario usuario;
 
 	@ManyToMany(mappedBy = "meusFavoritos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario" })
+	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario", "meusProdutos" })
 	private List<Usuario> favoritadoPor = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "minhasCompras", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras" })
+	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras", "meusFavoritos" })
 	private List<Usuario> compradoPor = new ArrayList<>();
 
-	// Video sobre o produto
+	@NotNull
+	private String fotoProduto1;
+	
+	private String fotoProduto2;
+	
+	private String fotoProduto3;
+	
+	private String fotoProduto4;
+	
+	private String videoProduto;
+
 
 	public Produto() {
 	}
 
-	public Produto(Long idProduto, String nomeProduto, Double preco, String descricao, Categoria categoria,
-			Usuario usuario) {
-
+	public Produto(Long idProduto, String nomeProduto, Double preco, String descricao, String fotoProduto1, 
+			String fotoProduto2, String fotoProduto3, String fotoProduto4, String videoProduto, 
+			Categoria categoria, Usuario usuario) {
 		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
 		this.preco = preco;
 		this.descricao = descricao;
+		this.fotoProduto1 = fotoProduto1;
+		this.fotoProduto2 = fotoProduto2;
+		this.fotoProduto3 = fotoProduto3;
+		this.fotoProduto4 = fotoProduto4;
+		this.videoProduto = videoProduto;
 		this.categoria = categoria;
 		this.usuario = usuario;
-
 	}
 
 	public Long getIdProduto() {
@@ -116,6 +129,46 @@ public class Produto {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getFotoProduto1() {
+		return fotoProduto1;
+	}
+
+	public void setFotoProduto1(String fotoProduto1) {
+		this.fotoProduto1 = fotoProduto1;
+	}
+
+	public String getFotoProduto2() {
+		return fotoProduto2;
+	}
+
+	public void setFotoProduto2(String fotoProduto2) {
+		this.fotoProduto2 = fotoProduto2;
+	}
+
+	public String getFotoProduto3() {
+		return fotoProduto3;
+	}
+
+	public void setFotoProduto3(String fotoProduto3) {
+		this.fotoProduto3 = fotoProduto3;
+	}
+
+	public String getFotoProduto4() {
+		return fotoProduto4;
+	}
+
+	public void setFotoProduto4(String fotoProduto4) {
+		this.fotoProduto4 = fotoProduto4;
+	}
+
+	public String getVideoProduto() {
+		return videoProduto;
+	}
+
+	public void setVideoProduto(String videoProduto) {
+		this.videoProduto = videoProduto;
 	}
 
 	public List<Usuario> getFavoritadoPor() {

@@ -46,8 +46,16 @@ public class UsuarioService {
 				String authHeader = "Basic " + new String(encodedAuth);
 
 				user.get().setToken(authHeader);
+				user.get().setCpf(usuario.get().getCpf());
+				user.get().setNomeSocial(usuario.get().getNomeSocial());
+				user.get().setNomeCompletoUsuario(usuario.get().getNomeCompletoUsuario());
+				user.get().setNomeUsuario(usuario.get().getNomeUsuario());
 				user.get().setEmailUsuario(usuario.get().getEmailUsuario());
 				user.get().setSenhaUsuario(usuario.get().getSenhaUsuario());
+				user.get().setContadorArvore(usuario.get().getContadorArvore());
+				user.get().setMeusFavoritos(usuario.get().getMeusFavoritos());
+				user.get().setMinhasCompras(usuario.get().getMinhasCompras());
+				user.get().setProdutosUsuario(user.get().getProdutosUsuario());
 
 				return user;
 			}
@@ -55,7 +63,6 @@ public class UsuarioService {
 		return null;
 	}
 
-	// Cadastrar Produto
 
 	public Produto cadastrarProduto(Produto novoProduto, String idUsuario) {
 		Produto produtoExistente = produtoRepository.save(novoProduto);
@@ -68,7 +75,6 @@ public class UsuarioService {
 		return null;
 	}
 
-	// Remover um produto
 	public Usuario deletarProduto(Long idProduto, String idUsuario) {
 		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
 		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
@@ -82,7 +88,6 @@ public class UsuarioService {
 		return null;
 	}
 
-	// favoritar
 	public Usuario favoritar(String idUsuario, Long idProduto) {
 		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
 		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
@@ -94,7 +99,17 @@ public class UsuarioService {
 		return null;
 	}
 	
-	// Efetuar Compra
+	public Usuario desfavoritar(String cpf, Long idProduto) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(cpf);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+		
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			usuarioExistente.get().getMeusFavoritos().remove(produtoExistente.get());
+			return usuarioRepository.save(usuarioExistente.get());
+		}
+		return null;
+	}
+	
 		public Usuario comprarProduto(String idUsuario, Long idProduto) {
 			Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
 			Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
@@ -106,5 +121,17 @@ public class UsuarioService {
 			}
 			return null;
 		}
+		
+		public Optional<Usuario> atualizarUsuario(Usuario usuario){
+			Optional<Usuario> usuarioExistente = usuarioRepository.findByEmailUsuario(usuario.getEmailUsuario());
+			if(usuarioExistente.isPresent()) {
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				String senhaEncoder = encoder.encode(usuario.getSenhaUsuario());
+				usuarioExistente.get().setSenhaUsuario(senhaEncoder);
+				return Optional.of(usuarioRepository.save(usuarioExistente.get()));
+			}
+			return Optional.empty();
+		}
+		
 
 }
