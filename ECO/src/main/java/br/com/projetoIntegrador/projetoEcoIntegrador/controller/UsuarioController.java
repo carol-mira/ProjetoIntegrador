@@ -127,9 +127,14 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(compra, HttpStatus.CREATED);
 	}
 
-	@PutMapping 
-	public ResponseEntity<Usuario> put(@RequestBody Usuario usuario) {
-		return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
+	@PutMapping("/alterar/senha")
+	public ResponseEntity<?> alterarSenha(@Valid @RequestBody Usuario usuario) {
+		Optional<Usuario> usuarioAlterado = usuarioService.atualizarUsuario(usuario);
+		if (usuarioAlterado.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioAlterado.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Falha na atualização!");
+		}
 	}
 	
 	@PutMapping("/produto/favoritar/{id_Produto}/{cpf}")
@@ -142,6 +147,8 @@ public class UsuarioController {
 		}
 		return new ResponseEntity<Usuario>(favorito, HttpStatus.CREATED);
 	}
+	
+	
 
 	@DeleteMapping("/{cpf}")
 	public void delete(@PathVariable String cpf) {
