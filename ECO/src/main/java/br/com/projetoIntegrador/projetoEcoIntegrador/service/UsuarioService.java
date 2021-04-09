@@ -121,5 +121,17 @@ public class UsuarioService {
 			}
 			return null;
 		}
+		
+		public Optional<Usuario> atualizarUsuario(Usuario usuario){
+			Optional<Usuario> usuarioExistente = usuarioRepository.findByEmailUsuario(usuario.getEmailUsuario());
+			if(usuarioExistente.isPresent()) {
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				String senhaEncoder = encoder.encode(usuario.getSenhaUsuario());
+				usuarioExistente.get().setSenhaUsuario(senhaEncoder);
+				return Optional.of(usuarioRepository.save(usuarioExistente.get()));
+			}
+			return Optional.empty();
+		}
+		
 
 }
