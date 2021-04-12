@@ -30,7 +30,9 @@ public class Usuario {
 
 	@Size(min = 3, max = 50)
 	private String nomeSocial;
-
+	
+	@NotNull
+	private String telefone;
 
 	@NotNull(message = "Preciso de um nome. Como devo te chamar?")
 	@Size(min = 3, max = 50)
@@ -65,24 +67,28 @@ public class Usuario {
 
 	public Usuario() {
 	}
-
-	public Usuario(Long idUsuario, @CPF String cpf, String nomeUsuario, String nomeCompletoUsuario,
-			String emailUsuario, String senhaUsuario) throws ParseException {
+	
+	public Usuario(@CPF String cpf,  String nomeSocial, String telefone, String nomeCompletoUsuario, String nomeUsuario,String emailUsuario,
+		 String senhaUsuario) {
+	
 		this.cpf = cpf;
-		this.nomeUsuario = nomeUsuario;
+		this.nomeSocial = nomeSocial;
+		this.telefone = telefone;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
+		this.nomeUsuario = nomeUsuario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
 	}
 
 	public Usuario(Long idUsuario, @CPF String cpf, String nomeSocial, String nomeUsuario, String nomeCompletoUsuario,
-			String emailUsuario, String senhaUsuario) throws ParseException {
+			String emailUsuario, String senhaUsuario, String telefone) throws ParseException {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
 		this.nomeSocial = nomeSocial;
 		this.nomeCompletoUsuario = nomeCompletoUsuario;
 		this.emailUsuario = emailUsuario;
 		this.senhaUsuario = senhaUsuario;
+		this.telefone = telefone;
 	}
 
 	public String getCpf() {
@@ -164,6 +170,15 @@ public class Usuario {
 	public void setMinhasCompras(List<Produto> minhasCompras) {
 		this.minhasCompras = minhasCompras;
 	}
-    
+
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+  
+	
+	
  }
 

@@ -14,6 +14,7 @@ public class UsuarioLogin {
 	private String emailUsuario;
 	private String senhaUsuario;
 	private Integer contadorArvore = 0;
+	private String telefone;
 	private List<Produto> produtosUsuario;
 	private List<Produto> meusFavoritos = new ArrayList<>();
 	private List<Produto> minhasCompras = new ArrayList<>();
@@ -105,6 +106,13 @@ public class UsuarioLogin {
 
 	public void setToken(String token) {
 		Token = token;
+	}
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 }
