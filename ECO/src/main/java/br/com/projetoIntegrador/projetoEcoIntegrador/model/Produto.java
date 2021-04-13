@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,12 +45,12 @@ public class Produto {
 	@JsonIgnoreProperties({"produtosUsuario","senhaUsuario"})
 	private Usuario usuario;
 
-	@ManyToMany(mappedBy = "meusFavoritos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario", "meusProdutos" })
+	@OneToMany(mappedBy = "meusFavoritos", cascade = CascadeType.REMOVE)
+	//@JsonIgnoreProperties({"senhaUsuario","meusFavoritos", "produtosUsuario", "meusProdutos" })
 	private List<Usuario> favoritadoPor = new ArrayList<>();
 
-	@ManyToMany(mappedBy = "minhasCompras", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras", "meusFavoritos" })
+	@OneToMany(mappedBy = "minhasCompras", cascade = CascadeType.REMOVE)
+	//@JsonIgnoreProperties({"senhaUsuario","meusProdutos", "minhasCompras", "meusFavoritos" })
 	private List<Usuario> compradoPor = new ArrayList<>();
 
 	@NotNull
