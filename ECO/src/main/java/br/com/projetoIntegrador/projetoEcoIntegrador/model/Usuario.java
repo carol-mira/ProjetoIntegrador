@@ -55,13 +55,13 @@ public class Usuario {
 	@JsonIgnoreProperties("usuario")
 	private List<Produto> produtosUsuario;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "id_comprador"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	@JsonIgnoreProperties("usuario")
 	private List<Produto> meusFavoritos = new ArrayList<>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "consumidor_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	@ManyToMany(cascade = CascadeType.REMOVE)
+	@JoinTable(name = "compras", joinColumns = @JoinColumn(name = "id_comprador"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	@JsonIgnoreProperties("usuario")
 	private List<Produto> minhasCompras = new ArrayList<>();
 

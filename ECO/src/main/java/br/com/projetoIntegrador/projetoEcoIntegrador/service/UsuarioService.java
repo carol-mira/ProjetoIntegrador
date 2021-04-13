@@ -63,7 +63,6 @@ public class UsuarioService {
 		return null;
 	}
 
-
 	public Produto cadastrarProduto(Produto novoProduto, String idUsuario) {
 		Produto produtoExistente = produtoRepository.save(novoProduto);
 		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
@@ -98,40 +97,39 @@ public class UsuarioService {
 		}
 		return null;
 	}
-	
+
 	public Usuario desfavoritar(String cpf, Long idProduto) {
 		Optional<Usuario> usuarioExistente = usuarioRepository.findById(cpf);
 		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
-		
+
 		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
 			usuarioExistente.get().getMeusFavoritos().remove(produtoExistente.get());
 			return usuarioRepository.save(usuarioExistente.get());
 		}
 		return null;
 	}
-	
-		public Usuario comprarProduto(String idUsuario, Long idProduto) {
-			Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
-			Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
-			
-			if(usuarioExistente.isPresent() && produtoExistente.isPresent()) {
-				usuarioExistente.get().getMinhasCompras().add(produtoExistente.get());
-				usuarioExistente.get().setContadorArvore(usuarioExistente.get().getContadorArvore()+1);
-				return usuarioRepository.save(usuarioExistente.get());
-			}
-			return null;
+
+	public Usuario comprarProduto(String idUsuario, Long idProduto) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findById(idUsuario);
+		Optional<Produto> produtoExistente = produtoRepository.findById(idProduto);
+
+		if (usuarioExistente.isPresent() && produtoExistente.isPresent()) {
+			usuarioExistente.get().getMinhasCompras().add(produtoExistente.get());
+			usuarioExistente.get().setContadorArvore(usuarioExistente.get().getContadorArvore() + 1);
+			return usuarioRepository.save(usuarioExistente.get());
 		}
-		
-		public Optional<Usuario> atualizarUsuario(Usuario usuario){
-			Optional<Usuario> usuarioExistente = usuarioRepository.findByEmailUsuario(usuario.getEmailUsuario());
-			if(usuarioExistente.isPresent()) {
-				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-				String senhaEncoder = encoder.encode(usuario.getSenhaUsuario());
-				usuarioExistente.get().setSenhaUsuario(senhaEncoder);
-				return Optional.of(usuarioRepository.save(usuarioExistente.get()));
-			}
-			return Optional.empty();
+		return null;
+	}
+
+	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
+		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmailUsuario(usuario.getEmailUsuario());
+		if (usuarioExistente.isPresent()) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String senhaEncoder = encoder.encode(usuario.getSenhaUsuario());
+			usuarioExistente.get().setSenhaUsuario(senhaEncoder);
+			return Optional.of(usuarioRepository.save(usuarioExistente.get()));
 		}
-		
+		return Optional.empty();
+	}
 
 }
